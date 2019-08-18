@@ -1,0 +1,28 @@
+version: "2"
+
+services:
+
+  primal-cd:
+    image: nginx:stable
+    volumes:
+      - ./primal-cd/html:/usr/share/nginx/html
+    labels:
+      - "traefik.frontend.rule=Host:primal-cd.docker.localhost"
+      - "traefik.backend=PrimalCD"
+    networks: 
+      - traefik
+
+  state-cd:
+    image: nginx:stable
+    volumes:
+      - ./state-cd/html:/usr/share/nginx/html
+    labels:
+      - "traefik.frontend.rule=Host:state-cd.docker.localhost"
+      - "traefik.backend=StateCD"
+    networks: 
+      - traefik
+
+networks: 
+  traefik:
+    external:
+      name: "${NETWORK_NAME}"
